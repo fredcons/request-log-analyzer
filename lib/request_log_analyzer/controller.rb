@@ -24,28 +24,29 @@ module RequestLogAnalyzer
       options = {}
 
       # Copy fields
-      options[:database]       = arguments[:database]
-      options[:reset_database] = arguments[:reset_database]
-      options[:debug]          = arguments[:debug]
-      options[:yaml]           = arguments[:yaml] || arguments[:dump]
-      options[:mail]           = arguments[:mail]
-      options[:no_progress]    = arguments[:no_progress]
-      options[:format]         = arguments[:format]
-      options[:output]         = arguments[:output]
-      options[:file]           = arguments[:file]
-      options[:after]          = arguments[:after]
-      options[:before]         = arguments[:before]
-      options[:reject]         = arguments[:reject]
-      options[:select]         = arguments[:select]
-      options[:boring]         = arguments[:boring]
-      options[:aggregator]     = arguments[:aggregator]
-      options[:report_width]   = arguments[:report_width]
-      options[:report_sort]    = arguments[:report_sort]
-      options[:report_amount]  = arguments[:report_amount]
-      options[:mailhost]       = arguments[:mailhost]
-      options[:mailsubject]    = arguments[:mailsubject]
-      options[:silent]         = arguments[:silent]
-      options[:parse_strategy] = arguments[:parse_strategy]
+      options[:database]             = arguments[:database]
+      options[:reset_database]       = arguments[:reset_database]
+      options[:debug]                = arguments[:debug]
+      options[:yaml]                 = arguments[:yaml] || arguments[:dump]
+      options[:mail]                 = arguments[:mail]
+      options[:no_progress]          = arguments[:no_progress]
+      options[:format]               = arguments[:format]
+      options[:output]               = arguments[:output]
+      options[:file]                 = arguments[:file]
+      options[:after]                = arguments[:after]
+      options[:before]               = arguments[:before]
+      options[:reject]               = arguments[:reject]
+      options[:select]               = arguments[:select]
+      options[:boring]               = arguments[:boring]
+      options[:aggregator]           = arguments[:aggregator]
+      options[:report_width]         = arguments[:report_width]
+      options[:report_sort]          = arguments[:report_sort]
+      options[:report_amount]        = arguments[:report_amount]
+      options[:mailhost]             = arguments[:mailhost]
+      options[:mailsubject]          = arguments[:mailsubject]
+      options[:silent]               = arguments[:silent]
+      options[:parse_strategy]       = arguments[:parse_strategy]
+      options[:ignore_query_strings] = arguments[:ignore_query_strings]
 
       # Apache format workaround
       if arguments[:rails_format]
@@ -110,6 +111,7 @@ module RequestLogAnalyzer
     # * <tt>:no_progress</tt> Do not display the progress bar (increases parsing speed).
     # * <tt>:output</tt> 'FixedWidth', 'HTML' or RequestLogAnalyzer::Output class. Defaults to 'FixedWidth'.
     # * <tt>:reject</tt> Reject specific {:field => :value} combination (expects a single hash).
+    # * <tt>:ignore_query_strings</tt> Replaces all query strings with <query>, to display stats solely based on the relevant part of a path
     # * <tt>:report_width</tt> Width of reports in characters for FixedWidth reports. (Defaults to 80)
     # * <tt>:reset_database</tt> Reset the database before starting.
     # * <tt>:select</tt> Select specific {:field => :value} combination (expects a single hash).
@@ -219,6 +221,10 @@ module RequestLogAnalyzer
         options[:select].each do |(field, value)|
           controller.add_filter(:field, :mode => :select, :field => field, :value => value)
         end
+      end
+
+      if options[:ignore_query_strings]
+        controller.add_filter(:removeQueryString, {})
       end
 
       # register aggregators

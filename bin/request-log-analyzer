@@ -51,6 +51,7 @@ begin
     command_line.option(:reject, :multiple => true, :parameters => 2)
     command_line.option(:after)
     command_line.option(:before)
+    command_line.switch(:ignore_query_strings)
 
     command_line.switch(:boring, :b)
     command_line.option(:output, :alias => :o, :default => 'fixedwidth')

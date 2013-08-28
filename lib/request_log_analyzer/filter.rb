@@ -25,3 +25,4 @@ end
 require 'request_log_analyzer/filter/field'
 require 'request_log_analyzer/filter/timespan'
 require 'request_log_analyzer/filter/anonymize'
+require 'request_log_analyzer/filter/removequerystring'
