@@ -18,5 +18,9 @@ describe RequestLogAnalyzer::Filter::RemovePathParams, 'remove path params' do
     @filter.filter(request(:path => '/utilisateur/activation/ZHLVVOFW'))[:path].should eql('/utilisateur/activation/{param}')
   end
 
+  it "should preserve the root path /" do
+    @filter.filter(request(:path => '/'))[:path].should eql('/')
+  end
+
 
 end

@@ -16,7 +16,7 @@ module RequestLogAnalyzer::Filter
         return_path_elements << (looks_like_param(path_element) ? '{param}' : path_element)
       }
       return_path = return_path_elements.join('/')
-
+      return_path = return_path.length > 0 ? return_path : '/'
       return query_string.length > 0 ? return_path + "?" + query_string : return_path
     end
 
