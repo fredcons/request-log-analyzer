@@ -7,7 +7,7 @@ describe RequestLogAnalyzer::Filter::RemoveQueryString, 'remove query string' do
   end
 
   it "should remove a querystring in a path" do
-    @filter.filter(request(:path => '/employees?foo=bar&baz=qux'))[:path].should eql('/employees?<query>')
+    @filter.filter(request(:path => '/employees?foo=bar&baz=qux'))[:path].should eql('/employees?{query}')
   end
 
 

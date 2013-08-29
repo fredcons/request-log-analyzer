@@ -4,7 +4,7 @@ module RequestLogAnalyzer::Filter
   class RemoveQueryString < Base
 
     def remove_query_string(value)
-      return value.gsub(/(.*)\?.*/, "\\1?<query>")
+      return value.gsub(/(.*)\?.*/, "\\1?{query}")
     end
 
     def filter(request)

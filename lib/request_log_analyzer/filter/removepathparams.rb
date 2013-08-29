@@ -13,7 +13,7 @@ module RequestLogAnalyzer::Filter
       path_elements = path.split('/')
       return_path_elements = []
       path_elements.each { | path_element |
-        return_path_elements << (looks_like_param(path_element) ? '<param>' : path_element)
+        return_path_elements << (looks_like_param(path_element) ? '{param}' : path_element)
       }
       return_path = return_path_elements.join('/')
 
