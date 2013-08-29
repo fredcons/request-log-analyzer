@@ -47,6 +47,7 @@ module RequestLogAnalyzer
       options[:silent]               = arguments[:silent]
       options[:parse_strategy]       = arguments[:parse_strategy]
       options[:ignore_query_strings] = arguments[:ignore_query_strings]
+      options[:ignore_path_params]   = arguments[:ignore_path_params]
 
       # Apache format workaround
       if arguments[:rails_format]
@@ -112,6 +113,7 @@ module RequestLogAnalyzer
     # * <tt>:output</tt> 'FixedWidth', 'HTML' or RequestLogAnalyzer::Output class. Defaults to 'FixedWidth'.
     # * <tt>:reject</tt> Reject specific {:field => :value} combination (expects a single hash).
     # * <tt>:ignore_query_strings</tt> Replaces all query strings with <query>, to display stats solely based on the relevant part of a path
+    # * <tt>:ignore_path_params</tt> Replaces all path params with <param>, to display stats solely based on the relevant part of a path
     # * <tt>:report_width</tt> Width of reports in characters for FixedWidth reports. (Defaults to 80)
     # * <tt>:reset_database</tt> Reset the database before starting.
     # * <tt>:select</tt> Select specific {:field => :value} combination (expects a single hash).
@@ -225,6 +227,10 @@ module RequestLogAnalyzer
 
       if options[:ignore_query_strings]
         controller.add_filter(:removeQueryString, {})
+      end
+
+      if options[:ignore_path_params]
+        controller.add_filter(:removePathParams, {})
       end
 
       # register aggregators
